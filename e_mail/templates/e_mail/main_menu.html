@@ -1,0 +1,43 @@
+{% block content %}
+{% if user.is_blocked %}
+<div>
+
+</div>
+{% else %}
+<header data-bs-theme="dark">
+    <div class="collapse text-bg-dark" id="navbarHeader">
+        <div class="container">
+            <div class="row">
+                <div class="col-sm-4 offset-md-10 py-4">
+                    <ul class="list-unstyled">
+                        <li><a href="{% url 'e_mail:home' %}" class="text-white">Список шаблонов</a></li>
+                        <li><a href="{% url 'e_mail:client_home' %}" class="text-white">Список клиентов</a></li>
+                        <li><a href="{% url 'e_mail:settings_home' %}" class="text-white">Список рассылок</a></li>
+                        {% if user.is_authenticated %}
+                            <li><a href="{% url 'users:profile' %}" class="text-white">Личный кабинет</a></li>
+                        {% if perms.e_mail.toggle_active %}
+                            <li><a href="{% url 'users:manager_users' %}" class="text-white">Кабинет менеджера</a></li>
+                        {% endif %}
+                            <li><a href="{% url 'users:logout' %}" class="text-white">Выход</a></li>
+                        {% else %}
+                            <li><a href="{% url 'users:login' %}" class="text-white">Вход</a>/<a href="{% url 'users:register' %}" class="text-white">Регистрация</a></li>
+                        {% endif %}
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="navbar navbar-dark bg-dark shadow-sm">
+        <div class="container">
+            <a href="/" class="navbar-brand d-flex align-items-center">
+                <strong>ЯРассылки</strong>
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarHeader"
+                    aria-controls="navbarHeader" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+        </div>
+    </div>
+</header>
+{% endif %}
+{% endblock %}

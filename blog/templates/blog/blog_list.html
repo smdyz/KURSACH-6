@@ -1,0 +1,77 @@
+{% extends 'e_mail/home.html' %}
+{% load static %}
+{% load image_tag %}
+
+{% block content %}
+{% if user.is_blocked %}
+<div class="col-12 text-center">
+    <h1>
+        Ваш аккаунт заблокирован!
+    </h1>
+    <a class="p-2 btn btn-outline-primary" href="{% url 'users:logout' %}">Выйти</a>
+</div>
+{% else %}
+<section class="py-5 text-center container">
+    <div class="row py-lg-5">
+        <div class="col-lg-6 col-md-8 mx-auto">
+            <h1 class="fw-light">ЯРассылки</h1>
+            <p class="lead text-body-secondary">Удобный сервис создания и отправки рассылок. Попробуй сейчас</p>
+            <p>
+                {% if perms.blog.add_blog or user.is_superuser %}
+                <a href="{% url 'blog:create_record' %}" class="btn btn-primary my-2">Добавить блоговую запись</a>
+                {% endif %}
+            </p>
+        </div>
+    </div>
+</section>
+<div class="container">
+    <div class="row text-left">
+        <h3>Активных рассылок на данный момент: {{mailing_quantity_active}}</h3>
+        <h3>Всего рассылок на данный момент: {{mailing_quantity}}</h3>
+        <h3>Уникальных клиентов на данный момент: {{clients_unique_quantity}}</h3>
+    </div>
+    <div class="row text-center">
+        {% for object in records %}
+        <div class="col-3">
+            <div class="card">
+                {% if object.image %}
+                <img src="#" class="card-img-top" alt="404 но мы уже чиним...">
+                {% endif %}
+                <div class="card-body">
+                    <h5 class="card-title">{{object.title}}</h5>
+                    <p class="card-text">{{object.body|slice:100}}</p>
+                    <a class="btn btn-block btn-outline-primary" href="{% url 'blog:view_record' object.pk %}" role="button">Прочесть
+                        полностью</a>
+                    {% if perms.blog.change_blog and perms.blog.delete_blog or user.is_superuser %}
+                    <button class="btn btn-primary" type="button" data-bs-toggle="collapse"
+                            data-bs-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample">
+                        Действия
+                    </button>
+                    <div class="collapse" id="collapseExample">
+                        <div class="card card-body">
+                            {% if perms.blog.change_blog or user.is_superuser %}
+                            <a class="btn btn-block btn btn-primary" href="{% url 'blog:edit_record' object.pk %}" role="button">Редактировать</a>
+                            {% if perms.blog.can_toggle_published or user.is_superuser %}
+                            {% if object.is_published %}
+                            <a class="btn btn-block btn btn-warning" href="{% url 'blog:change_published' object.pk %}" role="button">Снять
+                                с публикации</a>
+                            {% else %}
+                            <a class="btn btn-block btn btn-success" href="{% url 'blog:change_published' object.pk %}" role="button">Опубликовать</a>
+                            {% endif %}
+                            {% endif %}
+                            {% if perms.blog.delete_blog or user.is_superuser %}
+                            <a class="btn btn-block btn btn-danger" href="{% url 'blog:delete_record' object.pk %}"
+                               role="button">Удалить</a>
+                            {% endif %}
+                            {% endif %}
+                        </div>
+                    </div>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+{% endif %}
+{% endblock %}

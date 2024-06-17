@@ -1,0 +1,35 @@
+{% extends 'e_mail/home.html' %}
+{% load static %}
+
+{% block content %}
+{% if user.is_blocked %}
+<div class="col-12 text-center">
+    <h1>
+        Ваш аккаунт заблокирован!
+    </h1>
+    <a class="p-2 btn btn-outline-primary" href="{% url 'users:logout' %}">Выйти</a>
+</div>
+{% else %}
+<div class="row">
+    <div class="col-2 mx-auto">
+        <div class="card mx-auto" style="width: 18rem;">
+            <div class="card-body mx-20">
+                <form method="post" enctype="multipart/form-data"></form>
+                <h5 class="card-title">{{object.mailing_name}}</h5>
+                <p class="card-text">Клиенты: {% for client in object.client.all %} {{client.email}} {% endfor %}</p>
+                <p class="card-text">Периодичность отправки: {{object.period}}</p>
+                <p class="card-text">Активна: {{object.is_active}}</p>
+                <p class="card-text">Письмо: {{object.mail.message}}</p>
+                <div class="col-12">
+                    <div style="text-align:center">
+                        {% if user == object.owner or user.is_superuser or perms.e_mail.edit_mailingsettings %}
+                        <a href="{% url 'e_mail:edit_settings' object.pk %}" class="btn btn-md btn-outline-primary">Изменить</a>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endif %}
+{% endblock %}

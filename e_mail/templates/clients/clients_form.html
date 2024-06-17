@@ -1,0 +1,32 @@
+{% extends 'e_mail/home.html' %}
+
+{% block content %}
+{% if user.is_blocked %}
+<div class="col-12 text-center">
+    <h1>
+        Ваш аккаунт заблокирован!
+    </h1>
+    <a class="p-2 btn btn-outline-primary" href="{% url 'users:logout' %}">Выйти</a>
+</div>
+{% else %}
+<div class="container">
+    <form method="post" action="" enctype="multipart/form-data" class="form-floating">
+        <div class="row text-start">
+            <div class="col-lg-4 col-md-6 col-sm-12 mx-auto">
+                <div class="card mb-4 box-shadow mx-auto">
+                    <div class="card-header text-center">
+                        <h4 class="my-0 font-weight-normal">Создание клиента</h4>
+                    </div>
+                    <div class="card-body text-center">
+                        {% csrf_token %}
+                        {{ form.as_p }}
+                        <button type="submit" class="btn btn-block btn-outline-primary">Сохранить</button>
+                        <a href="{% url 'e_mail:client_home' %}" class="btn btn-block btn-outline-danger">Отмена</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>
+{% endif %}
+{% endblock %}
