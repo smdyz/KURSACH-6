@@ -8,7 +8,6 @@ from e_mail.forms import MailingAddForm, ClientAddForm, SettingsAddForm, Setting
 from e_mail.models import MailingMessage, Client, MailingSettings
 
 
-
 class MailingListView(ListView):
     model = MailingMessage
     template_name = 'e_mail/e_mail_list.html'

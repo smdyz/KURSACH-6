@@ -2,22 +2,21 @@
 <!doctype html>
 <html lang="en" data-bs-theme="auto">
 <head>
-    <script src="static/js/color-modes.js"></script>
+    <script src="{% static 'js/color-modes.js' %}"></script>
 
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="description" content="">
     <meta name="author" content="Mark Otto, Jacob Thornton, and Bootstrap contributors">
     <meta name="generator" content="Hugo 0.122.0">
-    <title>ЯРассылка</title>
+    <title>Smidy's Mail Transfer Page</title>
 
-    <link rel="canonical" href="https://getbootstrap.com/docs/5.3/examples/album/">
+    <link href="https://getbootstrap.com/docs/5.3/examples/album/" rel="canonical">
 
 
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@docsearch/css@3">
+    <link href="https://cdn.jsdelivr.net/npm/@docsearch/css@3" rel="stylesheet">
 
-    <link href="static/css/bootstrap.min.css" rel="stylesheet"
-          integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <link href="{% static 'css/bootstrap.css' %}" rel="stylesheet" crossorigin="anonymous">
 
 
     <style>
@@ -186,12 +185,11 @@
             <a href="#">Наверх</a>
         </p>
         <p>
-            <a href="{% url 'blog:home' %}">Мы пишем</a>
+            <a href="{% url 'blog:home' %}">Наш блог</a>
         </p>
     </div>
 </footer>
-<script src="static/js/bootstrap.bundle.min.js"
-        integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
+<script src="{% static 'js/bootstrap.bundle.js' %}"
         crossorigin="anonymous"></script>
 
 </body>

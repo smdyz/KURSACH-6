@@ -39,11 +39,11 @@ class RegisterView(CreateView):
         user.token = token
         send_mail(
             subject='Верификация почты',
-            message=f'Поздравляем с регистрацией в сервисе ЯРассылки \n'
-                    f'Для завершения регистрации перейдите по ссылке: \n'
-                    f'http://127.0.0.1:8000/users/confirm/{user.token} \n'
-                    f'Если вы не причастны к регистации - игнорируйте это письмо.\n'
-                    f'С Уважением, команда ЯРассылки',
+            message=f'''Поздравляем с регистрацией в сервисе Smidy's Mail Transfer Page \n
+                    Для завершения регистрации перейдите по ссылке: \n
+                    http://127.0.0.1:8000/users/confirm/{user.token} \n
+                    Если вы не причастны к регистации - игнорируйте это письмо.\n
+                    С Уважением, команда Smidy's Mail Transfer Page''',
             from_email=settings.DEFAULT_FROM_EMAIL,
             recipient_list=[user.email]
         )

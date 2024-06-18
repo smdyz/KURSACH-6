@@ -6,7 +6,14 @@ WORDS_BLACKLIST = ('казино', 'криптовалюта', 'крипта', '
                    'обман', 'полиция', 'терракт')
 
 
-class MailingAddForm(forms.ModelForm):
+class FormStyleMixin:
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        for field_name, field in self.fields.items():
+            field.widget.attrs['class'] = 'form-control'
+
+
+class MailingAddForm(FormStyleMixin, forms.ModelForm):
 
     class Meta:
         model = MailingMessage
@@ -29,7 +36,7 @@ class MailingAddForm(forms.ModelForm):
         return cleaned_data
 
 
-class ClientAddForm(forms.ModelForm):
+class ClientAddForm(FormStyleMixin, forms.ModelForm):
 
     class Meta:
         model = Client
@@ -45,7 +52,7 @@ class ClientAddForm(forms.ModelForm):
         return cleaned_data
 
 
-class SettingsAddForm(forms.ModelForm):
+class SettingsAddForm(FormStyleMixin, forms.ModelForm):
     class Meta:
         model = MailingSettings
         exclude = ('status', 'owner')
@@ -54,12 +61,17 @@ class SettingsAddForm(forms.ModelForm):
         cleaned_data = self.cleaned_data.get('mailing_name')
 
         if cleaned_data in WORDS_BLACKLIST:
-            raise forms.ValidationError('У-пс, название рассылки в списке запрещённых товаров')
+            raise forms.ValidationError('Такую рассылку нельзя отправлять согласно уголовному кодексу Российской '
+                                        'Федерации и политики нашей компании')
 
         return cleaned_data
 
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.fields['is_active'].widget.attrs['class'] = ''
 
-class SettingsManagerForm(forms.ModelForm):
+
+class SettingsManagerForm(FormStyleMixin, forms.ModelForm):
     class Meta:
         model = MailingSettings
         exclude = ('status', 'owner', 'client')
