@@ -65,7 +65,7 @@ def get_cache_mailing_active():
             mailing_quantity_active = MailingSettings.objects.filter(is_active=True).count()
             cache.set(key, mailing_quantity_active)
     else:
-        mailing_quantity_active = MailingSettings.objects.filter(is_active=True).count()
+        mailing_quantity_active = MailingSettings.objects.all().count()
     return mailing_quantity_active
 
 
@@ -78,7 +78,6 @@ def get_mailing_count_from_cache():
             cache.set(key, mailing_quantity)
     else:
          mailing_quantity = MailingSettings.objects.all().count()
-
     return mailing_quantity
 
 
