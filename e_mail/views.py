@@ -1,12 +1,14 @@
+from django.core.cache import cache
 from django.core.exceptions import PermissionDenied
 from django.shortcuts import render, get_object_or_404, redirect
 from django.urls import reverse_lazy, reverse
 from django.forms import inlineformset_factory
 from django.views.generic import ListView, CreateView, DetailView, UpdateView, DeleteView
 
+from config import settings
 from e_mail.forms import MailingAddForm, ClientAddForm, SettingsAddForm, SettingsManagerForm
 from e_mail.models import MailingMessage, Client, MailingSettings
-from e_mail.services import get_cache_mailing_active, get_mailing_count_from_cache, get_cache_unique_quantity
+from e_mail.services import get_cache_mailing_active, get_mailing_count_from_cache, get_cache_unique_quantity, home_page_caching
 
 
 class MailingListView(ListView):
@@ -15,7 +17,16 @@ class MailingListView(ListView):
     context_object_name = 'objects_list'
 
     def get_context_data(self, *args, **kwargs):
+        # if settings.CACHE_ENABLED:
+        #     key = f'mails_list_{self.object.pk}'
+        #     mails_list = cache.get(key)
+        #     if mails_list is None:
+        #         mails_list = self.objects.objects_list.all()
+        #         cache.set(key, mails_list)
+        # else:
+        #     mails_list = self.objects.objects_list.all()
         context = super().get_context_data(**kwargs)
+        context['mails'] = home_page_caching()
         context['mailing_quantity_active'] = get_cache_mailing_active()
         context['mailing_quantity'] = get_mailing_count_from_cache()
         context['clients_unique_quantity'] = get_cache_unique_quantity()

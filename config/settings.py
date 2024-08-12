@@ -125,6 +125,6 @@ if CACHE_ENABLED:
     CACHES = {
         "default": {
             "BACKEND": "django.core.cache.backends.redis.RedisCache",
-            "LOCATION": os.getenv('CACHES_LOCATION'),
+            "LOCATION": os.getenv('CACHES_LOCATION')
         }
     }

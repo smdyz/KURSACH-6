@@ -33,7 +33,7 @@ def my_job():
                 from_email=settings.DEFAULT_FROM_EMAIL,
                 recipient_list=emails_list
             )
-            print('Пошла рассылОчка')
+            print('Пошла рассылка')
 
             status = result == True
 
@@ -92,4 +92,17 @@ def get_cache_unique_quantity():
         clients_unique_quantity = len(list(set(Client.objects.all())))
 
     return clients_unique_quantity
+
+
+def home_page_caching():
+    if settings.CACHE_ENABLED:
+        key = f'mails_list'
+        mails_list = cache.get(key)
+        if mails_list is None:
+            mails_list = MailingMessage.objects.all()
+            cache.set(key, mails_list)
+    else:
+        mails_list = MailingMessage.objects.all()
+
+    return mails_list
 
