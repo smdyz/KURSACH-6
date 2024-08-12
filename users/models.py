@@ -3,6 +3,7 @@ from django.db import models
 # Create your models here.
 from django.contrib.auth.models import AbstractUser
 from django.db import models
+from django.contrib import auth
 
 NULLABLE = {'blank': True, 'null': True}
 
@@ -33,3 +34,7 @@ class User(AbstractUser):
                 'заблокировать'
             )
         ]
+
+
+def auth_users(*args, **kwargs):
+    return auth.models.User.objects.all().count()

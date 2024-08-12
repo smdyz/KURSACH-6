@@ -1,5 +1,6 @@
 {% extends 'e_mail/home.html' %}
 {% load static %}
+{% load image_tag %}
 
 {% block content %}
 
@@ -57,6 +58,9 @@
             {% endfor %}
             </div>
         </div>
+        <p>Активных рассылок на данный момент: {{object_list.mailing_quantity_active}}</p>
+        <p>Всего рассылок на данный момент: {{object_list.mailing_quantity}}</p>
+        <p>Уникальных клиентов на данный момент: {{object_list.clients_unique_quantity}}</p>
     </div>
 </main>
 {% endif %}

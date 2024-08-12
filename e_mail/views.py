@@ -6,12 +6,22 @@ from django.views.generic import ListView, CreateView, DetailView, UpdateView, D
 
 from e_mail.forms import MailingAddForm, ClientAddForm, SettingsAddForm, SettingsManagerForm
 from e_mail.models import MailingMessage, Client, MailingSettings
+from e_mail.services import get_cache_mailing_active, get_mailing_count_from_cache, get_cache_unique_quantity
 
 
 class MailingListView(ListView):
     model = MailingMessage
     template_name = 'e_mail/e_mail_list.html'
     context_object_name = 'objects_list'
+
+    def get_context_data(self, *args, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['mailing_quantity_active'] = get_cache_mailing_active()
+        context['mailing_quantity'] = get_mailing_count_from_cache()
+        context['clients_unique_quantity'] = get_cache_unique_quantity()
+        context['records'] = MailingMessage.objects.order_by('?')[:3]
+
+        return context
 
 
 class MailingCreateView(CreateView):

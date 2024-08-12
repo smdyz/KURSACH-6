@@ -8,6 +8,7 @@ from django.template.loader import render_to_string
 from django.urls import reverse, reverse_lazy
 from django.views.generic import UpdateView, CreateView, ListView, DetailView
 
+import users.views
 from users.forms import UserProfileForm, UserRegisterForm
 from users.models import User
 
